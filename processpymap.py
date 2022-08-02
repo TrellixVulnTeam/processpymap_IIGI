@@ -38,6 +38,11 @@ def populate(cur_node=Node):
             break
         elif x == cur_node.name:
             print('\x1B[31myou already typed that in\x1B[37m')
+        elif len(x) != 0 and len(queue) > 0: #todo check for duplicates & debug
+            for a in queue:
+                if a == x:
+                    print('duplicated items are not allowed!')
+                
         else:
             queue.append(x)
     """input node name"""
