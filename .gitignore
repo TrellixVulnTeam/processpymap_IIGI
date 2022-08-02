@@ -12,7 +12,7 @@
 
 #ADDED BY ME
 .vscode/
-env/
+env
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -365,3 +365,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+.gitignore

@@ -6,12 +6,12 @@ class Node:
     def __init__(self, data="", parent=None):
         self.higher = parent
         self.name = data
-        self.children = []
+        self.subnodes = []
 
     def data(self):
         """return raw data of children into its own list"""
         y = []
-        for x in self.children:
+        for x in self.subnodes:
             y.append(x.name)
         return y
 
@@ -31,9 +31,9 @@ def populate(cur_node=Node):
         else:
             print(' -> ', end='')
     print('Input stuff needed to make\x1B[35m', cur_node.name, '\x1B[37m:')
-    while True:
+    while True:  # todo add validation checking through elif branches
         x = input('')
-        x.strip
+        x = x.strip()
         if len(x) == 0:
             break
         elif x == cur_node.name:
@@ -44,10 +44,10 @@ def populate(cur_node=Node):
     for n in queue:
         """create a new node for every string in the list"""
         temp = Node(n, cur_node)
-        cur_node.children.append(temp)
-    if len(cur_node.children) > 0:
+        cur_node.subnodes.append(temp)
+    if len(cur_node.subnodes) > 0:
         """recusrively call this function"""
-        for n in cur_node.children:
+        for n in cur_node.subnodes:
             populate(n)
 
 
