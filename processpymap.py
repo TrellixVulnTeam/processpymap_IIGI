@@ -1,34 +1,55 @@
 class Node:
-    """stores data for data trees of composing of just instances of this class"""
-    parent = None
+    higher = None
     children = []
-    name = ''
+    name = ""
 
-    def __init__(myself, A='', B=None):
-        """default constructor for instance"""
-        myself.name = A
-        myself.parent = B
-    def __del__(myself):
-        """default deconstructor for instance"""
-        print('Bye bye',myself.name)
-def nani_tentative(nani = Node):
-    """add nodes into children's list"""
-    string_input = []
-    print('What ingredients do you need to create\x1B[35m',nani.name,'\x1B[37mleave blank to stop inputting: ')
-    while (True):
-        x = input('')
-        if len(x) == 0:
-            break;
+    def __init__(self, data="", parent=None):
+        self.higher = parent
+        self.name = data
+        self.children = []
+
+
+def populate(cur_node=Node):
+    """create and input nodes into the current node's children"""
+    queue = []
+    pytempnode = cur_node
+    """output the pointer trail (quick and dirty backward traversal)"""
+    if (pytempnode.higher != None):
+        print('Trail: ', end='')
+    while (pytempnode.higher != None):
+        print(pytempnode.name, end='')
+        pytempnode = pytempnode.higher
+        if (pytempnode.higher == None):
+            print('')
         else:
-            string_input.insert(0,x)
-    if not len(string_input) == 0:
-        for string in string_input:
-            ariana = Node(string,nani)
-            nani.children.insert(0,ariana)
-        for node in nani.children:
-            nani_tentative(node)
+            print(' -> ', end='')
+
+    print('Input stuff needed to make\x1B[35m', cur_node.name, '\x1B[37m:')
+    while True:
+        x = input('')
+        x.strip
+        if len(x) == 0:
+            break
+        elif x == cur_node.name:
+            print('\x1B[31myou already typed that in\x1B[37m')
+        else:
+            queue.append(x)
+    """input node name"""
+    for n in queue:
+        """create a new node for every string in the list"""
+        temp = Node(n, cur_node)
+        cur_node.children.append(temp)
+    if len(cur_node.children) > 0:
+        """recusrively call this function"""
+        for n in cur_node.children:
+            populate(n)
+
+
 """beginning of main script"""
-head = Node('Narieles')
-nani_tentative(head)
+print('\x1B[32mbeginning process\x1B[37m')
+py_A = input('What is the name of the item you want to create: ')
+A = Node(py_A, None)
+populate(A)
+
 """terminating process"""
 print('\x1B[31mterminating process\x1B[37m')
