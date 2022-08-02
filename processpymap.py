@@ -8,6 +8,13 @@ class Node:
         self.name = data
         self.children = []
 
+    def data(self):
+        """return raw data of children into its own list"""
+        y = []
+        for x in self.children:
+            y.append(x.name)
+        return y
+
 
 def populate(cur_node=Node):
     """create and input nodes into the current node's children"""
@@ -23,7 +30,6 @@ def populate(cur_node=Node):
             print('')
         else:
             print(' -> ', end='')
-
     print('Input stuff needed to make\x1B[35m', cur_node.name, '\x1B[37m:')
     while True:
         x = input('')
@@ -50,6 +56,6 @@ print('\x1B[32mbeginning process\x1B[37m')
 py_A = input('What is the name of the item you want to create: ')
 A = Node(py_A, None)
 populate(A)
-
+print('local children: ', A.data())
 """terminating process"""
 print('\x1B[31mterminating process\x1B[37m')
