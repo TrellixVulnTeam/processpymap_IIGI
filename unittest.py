@@ -19,8 +19,6 @@ class Node:
         self.parentNode = P
         if (self.parentNode != None):
             self.parentNode.childrenNodes.append(self)
-        else:
-            print('parent node, cannot append to None')
         self.amountresulted = 0
         self.amountneededpercraft = C
         self.amountmadepercraft = B
@@ -49,28 +47,17 @@ def recursivearithmetic(a=Node):
     Equation for when B = 1: D = A/(B*C)
     Equation for when B > 1: = D^P = D^C * B^P + A^P (C,child & P,parent)
     """
-    mypynumlist = [] #use this number to find minimum result amounted
-    if a.parentNode == None and len(a.childrenNodes) > 0:  # head node
+    mypynumlist = []  # use this number to find minimum result amounted
+    if a.parentNode == None and len(a.childrenNodes) > 0:       # head node
         print('head node:\x1B[32m', a, '\x1B[37m')
         """perform math"""
-        for node in a.childrenNodes:
-            mypynumlist.append(round(node.amountonhand/(node.amountmadepercraft*node.amountneededpercraft)))
-        a.amountresulted = min(mypynumlist)
-        
-    elif a.parentNode != None and len(a.childrenNodes) > 0:  # body node
+    elif a.parentNode != None and len(a.childrenNodes) > 0:     # body node
         print('body node:\x1B[33m', a, '\x1B[37m')
         """perform math"""
-        for node in a.childrenNodes:
-            if node.amountmadepercraft == 1:
-                mypynumlist.append(round(node.amountonhand/(node.amountmadepercraft*node.amountneededpercraft)))
-            else:
-                mypynumlist.append(round((node.amountneededpercraft * node.parentNode.amountmadepercraft) + node.parentNode.amountonhand)) #subject to change
-    elif a.parentNode != None and len(a.childrenNodes) == 0:  # endpoint node
+    elif a.parentNode != None and len(a.childrenNodes) == 0:    # endpoint node
         print('endpoint node:\x1B[31m', a, '\x1B[37m')
         """perform math"""
-        a.amountresulted = round(a.amountonhand/(a.amountmadepercraft*a.amountneededpercraft))
-        a.parentNode.amountonhand += a.amountresulted
-    else:  # single node in tree
+    else:                                                       # single node in tree
         print('\x1B[36mUNKNOWN\x1B[37m')
     if a.parentNode != None:
         recursivearithmetic(a.parentNode)
@@ -87,6 +74,5 @@ Copper_Bar = Node('Copper Bar', Copper_Wire, 1000, 1, 1)
 Copper_Ore = Node('Copper Ore', Copper_Bar, 2, 1, 2)
 Sand = Node('Sand', Silicon, 901, 1, 50)
 searchforendpoints(Silicon_Board)
-print('Amount of Silicon Board made:',Silicon_Board.amountresulted)
 """terminating process"""
 print('\x1B[31mI love you Narieles 💞\x1B[37m')
