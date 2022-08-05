@@ -1,66 +1,54 @@
+from re import A
+from tkinter import N
+
+
 class Node:
-    higher = None
-    children = []
-    name = ""
+    ingredient = ""
+    amountonhand = 0
+    amountpercraft = 0
+    amountneededpercraft = 0
+    prevNode = None
+    nextNode = []
 
-    def __init__(self, data="", parent=None):
-        self.higher = parent
-        self.name = data
-        self.subnodes = []
+    def __init__(self, A='', B=None):
+        """default constructor"""
+        self.ingredient = A
+        self.prevNode = B
+        self.amountonhand = -1
+        self.amountpercraft = -1
+        self.amountneededpercraft = -1
 
-    def data(self):
-        """return raw data of children into its own list"""
-        y = []
-        for x in self.subnodes:
-            y.append(x.name)
-        return y
+    def joo(self):
+        for j in self.nextNode:
+            print(j)
 
 
-def populate(cur_node=Node):
-    """create and input nodes into the current node's children"""
-    queue = []
-    pytempnode = cur_node
-    """output the pointer trail (quick and dirty backward traversal)"""
-    if (pytempnode.higher != None):
-        print('Trail: ', end='')
-    while (pytempnode.higher != None):
-        print(pytempnode.name, end='')
-        pytempnode = pytempnode.higher
-        if (pytempnode.higher == None):
-            print('')
-        else:
-            print(' -> ', end='')
-    print('Input stuff needed to make\x1B[35m', cur_node.name, '\x1B[37m:')
-    while True:  # todo add validation checking through elif branches
-        x = input('')
-        x = x.strip()
-        if len(x) == 0:
+def populate(A=Node):
+    i = ''
+    l = []
+    """subingredients"""
+    print('Type in ingredients needed to make',A.ingredient,':')
+    while (True):
+        i = input('')
+        if len(i) == 0: 
             break
-        elif x == cur_node.name:
-            print('\x1B[31myou already typed that in\x1B[37m')
-        elif len(x) != 0 and len(queue) > 0: #todo check for duplicates & debug
-            for a in queue:
-                if a == x:
-                    print('duplicated items are not allowed!')
-                
-        else:
-            queue.append(x)
-    """input node name"""
-    for n in queue:
-        """create a new node for every string in the list"""
-        temp = Node(n, cur_node)
-        cur_node.subnodes.append(temp)
-    if len(cur_node.subnodes) > 0:
-        """recusrively call this function"""
-        for n in cur_node.subnodes:
-            populate(n)
-
-
+        elif len(i) > 0 and len(l) > 0:
+            repeated = False
+            for j in l:
+                repeated = i == j
+                if repeated:
+                    break
+            if repeated:
+                print('')
+            else:
+                l.append(i)
+    if len(l) > 0:
+        for m in l:
+            B = Node(m,A)
+            A.nextNode.append(B)
 """beginning of main script"""
 print('\x1B[32mbeginning process\x1B[37m')
-py_A = input('What is the name of the item you want to create: ')
-A = Node(py_A, None)
-populate(A)
-print('local children: ', A.data())
+a = Node('Node A')
+populate(a)
 """terminating process"""
 print('\x1B[31mterminating process\x1B[37m')
