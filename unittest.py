@@ -57,9 +57,11 @@ def recursivearithmetic(a=Node):
     elif a.parentNode != None and len(a.childrenNodes) == 0:    # endpoint node
         print('endpoint node:\x1B[31m', a, '\x1B[37m')
         """perform math"""
-    else:                                                       # single node in tree
-        print('\x1B[36mUNKNOWN\x1B[37m')
+    else:# single node in tree
+        print('\x1B[36mUNKNOWN\x1B[37m-\x1B[34m', type(a), '\x1B[37m')
+        """recursive function call"""
     if a.parentNode != None:
+        a.parentNode.amountneededpercraft += a.amountneededpercraft
         recursivearithmetic(a.parentNode)
 
 
@@ -74,5 +76,6 @@ Copper_Bar = Node('Copper Bar', Copper_Wire, 1000, 1, 1)
 Copper_Ore = Node('Copper Ore', Copper_Bar, 2, 1, 2)
 Sand = Node('Sand', Silicon, 901, 1, 50)
 searchforendpoints(Silicon_Board)
+print('Silicon Boards amount resulted:', Silicon_Board.amountresulted)
 """terminating process"""
 print('\x1B[31mI love you Narieles 💞\x1B[37m')
