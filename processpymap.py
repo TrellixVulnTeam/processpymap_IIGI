@@ -1,6 +1,3 @@
-from tkinter.messagebox import NO
-
-
 class Node:
     ingredient = ''
     amountonhand = 0
@@ -8,7 +5,6 @@ class Node:
     amountmadepercraft = 0
     amountresulted = 0
     amountresultedqueue = []  # use this to test the math function
-    """address nodes"""
     parentNode = None
     childrenNodes = []
 
@@ -26,21 +22,39 @@ class Node:
         self.amountresultedqueue = []
     def inputnumerics(self):
         """input the numeric data for the node"""
-        self.amountonhand = int(input('How much',self.ingredient,'do you have on hand: '))
-        self.amountmadepercraft = int(input('How much',self.ingredient,'do you create each time you craft it: '))
+        A = eval(input('How much \x1B[33m' +  str(self.ingredient) + '\x1B[37m do you have on hand: '))
+        B = 0
+        while B == 0:
+            B = int(input('How much \x1B[33m' +  str(self.ingredient) + '\x1B[37m do you create each time you craft it: ')) 
+            
+        C = 1
+        self.amountonhand = A
+        self.amountmadepercraft = B
         if self.parentNode != None:
-            self.amountneededpercraft = int(input('how much',self.ingredient,'do you need to create',self.parentNode.ingredient))
-    def traceback(self,output = False):
+            C = int(input('How much \x1B[33m' + str(self.ingredient) + '\x1B[37m do you need to create \x1B[34m' + str(self.parentNode.ingredient) +'\x1B[37m:'))
+            self.amountneededpercraft = C
+    def traceback(self, output=False):
         """output trail"""
         if output == True:
-            print('TRAIL: ',end='')
+            print('TRAIL: ', end='')
         if self.parentNode != None:
-            print(self.ingredient,'-> ',end='')
+            print(self.ingredient, '-> ', end='')
         else:
-            print(self.ingredient)
-        
+            print('\x1B[35m', self.ingredient, '\x1B[37m')
+
         if self.parentNode != None:
             self.parentNode.traceback()
+    def searchforendpoints(self):
+        """search for endpoint nodes"""
+        if len(self.childrenNodes) > 0:
+            for childNode in self.childrenNodes:
+                childNode.searchforendpoints()
+        else:
+            recursivearithmetic(self)
+    def returnresultedamount(self):
+        self.searchforendpoints()
+        return self.amountresulted
+
 
 def recursivearithmetic(currentNode=Node):
     """ 
@@ -88,46 +102,42 @@ def recursivearithmetic(currentNode=Node):
         currentNode.parentNode.amountresultedqueue.append(
             currentNode.amountresulted)
     else:
-        D = currentNode.amountonhand//(currentNode.amountneededpercraft*currentNode.amountneededpercraft)
+        D = currentNode.amountonhand//(currentNode.amountneededpercraft *
+                                       currentNode.amountneededpercraft)
     """recursive function call """
     if (currentNode.parentNode != None):
         recursivearithmetic(currentNode.parentNode)
     currentNode.amountresulted = D
 
+
 def populate(currentNode=Node):
     """populate each node with subnodes"""
+    inputqueue = []
     if currentNode.parentNode != None:
         currentNode.traceback(True)
-    
+    print('What ingredients do you need to create',currentNode.ingredient,': ')
+    while True:
+        i = input('')
+        if (len(i) > 0):
+            inputqueue.append(i)
+        else:
+            break
+    if len(inputqueue) > 0:
+        for nodeName in inputqueue:
+            temp = Node(nodeName,currentNode)
+            temp.inputnumerics()
     if len(currentNode.childrenNodes) > 0:
         """recursive function call"""
-        for i in currentNode.childrenNodes:
-            populate(i)
+        for newNode in currentNode.childrenNodes:
+            populate(newNode)
+
+
 """beginning process"""
 print('\x1B[32mbeginning process\x1B[37m')
-Focusing_Array = Node('Focusing Array',None,1,1,0)
-Advanced_Alloy = Node('Advanced Alloy',Focusing_Array,8,1,2)
-Crystal = Node('Crystal',Focusing_Array,640,1,2)
-Plasmic_Crystal = Node('Plasmic Crystal',Focusing_Array,41,2,2)
-Quantum_Processor = Node('Quantum Processor',Focusing_Array,20,2,1)
-Zerchesium_Bar = Node('Zerchesium Bar',Advanced_Alloy,548,1,1)
-Zerchesium_Ore = Node('Zerchesium Ore',Zerchesium_Bar,2,1,2)
-Protocite_Bar = Node('Protocite Bar',Advanced_Alloy,277,1,1)
-Protocite_Ore = Node('Protocite Ore',Protocite_Bar,2,1,2)
-Penumbrite_Shard = Node('Penumbrite Shard',Advanced_Alloy,86,1,1)
-Penumbrite_Ore = Node('Penumbrite Ore',Penumbrite_Shard,2,1,2)
-Lead = Node('Lead',Advanced_Alloy,251,1,1)
-Crystal_Plant_Seed = Node('Crystal Plant Seed',Crystal,100,1,1)
-Blood_Rock = Node('Blood Rock',Plasmic_Crystal,1000,1,50)
-Blood = Node('Blood',Blood_Rock,23,1,1)
-Lava = Node('Lava',Blood_Rock,404,1,1)
-Silicon_Board = Node('Silicon Board', Quantum_Processor, 310, 1, 4)  
-Copper_Wire = Node('Copper Wire', Silicon_Board, 492, 9, 1)
-Silicon = Node('Silicon', Silicon_Board, 1000, 1, 1)
-Copper_Bar = Node('Copper Bar', Copper_Wire, 1000, 1, 1)
-Copper_Ore = Node('Copper Ore', Copper_Bar, 2, 1, 2)
-Sand = Node('Sand', Silicon, 901, 1, 50)
-"""oio"""
-populate(Focusing_Array)
+itemname = input('What is the name of the item you want to create: ')
+head = Node(itemname, None)
+head.inputnumerics()
+populate(head)
+print('The amount of',head.ingredient,'possible for you to create with all these values is: \x1B[32m',head.returnresultedamount())
 """terminating process"""
 print('\x1B[31mterminating process\x1B[37m')
