@@ -67,11 +67,12 @@ def recursivearithmetic(currentNode = Node):
     elif currentNode.parentNode != None and len(currentNode.childrenNodes) == 0:    #?  endpoint node
         """find the amount resulted and input it into a queue of children amount resulted for the direct parent"""
         currentNode.amountresulted = currentNode.amountonhand // (currentNode.amountmadepercraft * currentNode.amountneededpercraft)
-        currentNode.parentNode.amountresultedqueue.append(currentNode.amountresulted)
+        D = currentNode.amountresulted
+        currentNode.parentNode.amountresultedqueue.append(D)
     """recursive function call """
+    currentNode.amountresulted = D
     if (currentNode.parentNode != None):
         recursivearithmetic(currentNode.parentNode)
-    currentNode.amountresulted = D
 def printresultedamount(subjectNode = Node):
     searchforendpoints(subjectNode)
     print(subjectNode.ingredient,'amount resulted:',subjectNode.amountresulted)
