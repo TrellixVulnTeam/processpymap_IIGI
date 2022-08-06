@@ -4,36 +4,23 @@ class Node:
     amountneededpercraft = 0
     amountmadepercraft = 0
     amountresulted = 0
+    amountresultedqueue = [] #use this to test the math function
     """address nodes"""
     parentNode = None
     childrenNodes = []
-    amountresultedqueue = [] #use this to test the math function
 
-    def __init__(self, I='', P=None, A=0, B=0, C=0):
+    def __init__(self, I='', P=None, on_hand=0, made_per_craft=0, needed_per_craft=0):
         """Default Node Constructor"""
         self.ingredient = I
         self.parentNode = P
         if (self.parentNode != None):
             self.parentNode.childrenNodes.append(self)
         self.amountresulted = 0
-        self.amountneededpercraft = C
-        self.amountmadepercraft = B
-        self.amountonhand = A
+        self.amountneededpercraft = needed_per_craft
+        self.amountmadepercraft = made_per_craft
+        self.amountonhand = on_hand
         self.childrenNodes = []
-        self.amountresultedqueue = [] #use this to test the math function
-    def traceback(self): #? utlility method 
-        """prints out a path of node names through their parent's pointer addresses"""
-        if self.parentNode == None and len(self.childrenNodes) > 0:                 #head node
-            print('\x1B[32m',self.ingredient,'-\x1B[33m>\x1B[37m ',end='')
-        elif self.parentNode != None and len(self.childrenNodes) > 0:               #body node
-            print('\x1B[36m',self.ingredient,'-\x1B[32m>\x1B[37m ',end='')
-        elif self.parentNode != None and len(self.childrenNodes) == 0:              #endpoint
-            print('\x1B[35m',self.ingredient,'-\x1B[36m>\x1B[37m ',end='')
-        
-        if (self.parentNode != None):
-            self.parentNode.traceback()
-        else:
-            print('NONE')
+        self.amountresultedqueue = [] 
             
     
 def searchforendpoints(a=Node):
@@ -44,7 +31,6 @@ def searchforendpoints(a=Node):
         for b in a.childrenNodes:
             if (isinstance(a, Node)):
                 searchforendpoints(b)
-    a.traceback()
 
 def recursivearithmetic(currentNode = Node):
     """ 
@@ -90,7 +76,7 @@ def printresultedamount(subjectNode = Node):
     searchforendpoints(subjectNode)
     print(subjectNode.ingredient,'amount resulted:',subjectNode.amountresulted)
 """beginning program"""
-print('\x1B[32mBeginning Process\x1B[37m\n')
+print('\x1B[32mBeginning Process\x1B[37m')
 """create nodes"""
 #! (A:amount on hand ,B:amount mader per craft,C:amount needed per craft)
 Focusing_Array = Node('Focusing Array',None,1,1,0)
@@ -117,4 +103,4 @@ Copper_Ore = Node('Copper Ore', Copper_Bar, 2, 1, 2)
 Sand = Node('Sand', Silicon, 901, 1, 50)
 printresultedamount(Focusing_Array)
 """terminating process"""
-print('\x1B[31mI love you Narieles 💞\nI love you so freaking much you make me happy everyday!\x1B[37m')
+print('\x1B[31mterminating process\x1B[37m')
