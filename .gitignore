@@ -13,6 +13,9 @@
 #ADDED BY ME
 .vscode/
 env
+processpymap.pyroj
+processpymap.pyroj.user
+processpymap.sln
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -365,4 +368,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+.gitignore
+desktop.ini
 .gitignore
